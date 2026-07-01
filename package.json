@@ -1,0 +1,23 @@
+{
+  "name": "absensi-kampus",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "~6.0.2",
+    "vite": "^8.1.1"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.5.2",
+    "firebase": "^12.15.0",
+    "lucide-react": "^1.22.0",
+    "postcss": "^8.5.16",
+    "recharts": "^3.9.1",
+    "tailwindcss": "^4.3.2"
+  }
+}
