@@ -1,15 +1,16 @@
 import { initializeApp } from 'firebase/app';
 // Kita tambahkan fitur query, where, dan getDocs untuk mencari data
-import { getFirestore, collection, addDoc, query, where, getDocs } from 'firebase/firestore'; 
+import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore'; 
 
 // 1. MASUKKAN KONFIGURASI ASLI ANDA DI SINI
 const firebaseConfig = {
-  apiKey: "ISI_API_KEY_ANDA",
-  authDomain: "ISI_PROJECT_ID.firebaseapp.com",
-  projectId: "ISI_PROJECT_ID",
-  storageBucket: "ISI_PROJECT_ID.appspot.com",
-  messagingSenderId: "ISI_SENDER_ID",
-  appId: "ISI_APP_ID"
+   apiKey: "AIzaSyCLrfjtCMPUdqONvg3uIeHtOm2pejWunVc",
+  authDomain: "absen-online-pbk.firebaseapp.com",
+  projectId: "absen-online-pbk",
+  storageBucket: "absen-online-pbk.firebasestorage.app",
+  messagingSenderId: "870885899226",
+  appId: "1:870885899226:web:2847c443dab9a3b954dee3",
+  measurementId: "G-TKKBLF7V0V"
 };
 
 const app = initializeApp(firebaseConfig);
