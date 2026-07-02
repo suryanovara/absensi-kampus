@@ -1,99 +1,62 @@
 import { initializeApp } from 'firebase/app';
-// Kita menambahkan 'query', 'where', dan 'getDocs' untuk mencari data NIM
+// Kita tambahkan fitur query, where, dan getDocs untuk mencari data
 import { getFirestore, collection, addDoc, query, where, getDocs } from 'firebase/firestore'; 
 
-// 1. Masukkan konfigurasi Firebase Anda di sini
+// 1. MASUKKAN KONFIGURASI ASLI ANDA DI SINI
 const firebaseConfig = {
-    apiKey: "AIzaSyCLrfjtCMPUdqONvg3uIeHtOm2pejWunVc",
-  authDomain: "absen-online-pbk.firebaseapp.com",
-  projectId: "absen-online-pbk",
-  storageBucket: "absen-online-pbk.firebasestorage.app",
-  messagingSenderId: "870885899226",
-  appId: "1:870885899226:web:2847c443dab9a3b954dee3",
-  measurementId: "G-TKKBLF7V0V"
+  apiKey: "ISI_API_KEY_ANDA",
+  authDomain: "ISI_PROJECT_ID.firebaseapp.com",
+  projectId: "ISI_PROJECT_ID",
+  storageBucket: "ISI_PROJECT_ID.appspot.com",
+  messagingSenderId: "ISI_SENDER_ID",
+  appId: "ISI_APP_ID"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Variabel untuk mengingat siapa yang sedang login
-let mahasiswaAktif = { nama: "", nim: "" };
-
-// Mengambil elemen-elemen dari HTML
-const halamanLogin = document.getElementById('halamanLogin');
-const halamanAbsen = document.getElementById('halamanAbsen');
+// Tangkap elemen dari HTML
+const layarLogin = document.getElementById('layar-login');
+const layarAbsen = document.getElementById('layar-absen');
 const formLogin = document.getElementById('formLogin');
-const formAbsen = document.getElementById('formAbsen');
-const pesanErrorLogin = document.getElementById('pesanErrorLogin');
-const namaMahasiswaTampil = document.getElementById('namaMahasiswaTampil');
-const pesanSukses = document.getElementById('pesanSukses');
+const nimInput = document.getElementById('nimInput') as HTMLInputElement;
+const pesanError = document.getElementById('pesanError');
+const namaTampil = document.getElementById('namaTampil');
 
-// 2. SISTEM LOGIN: Mengecek NIM
+let dataMahasiswaSementara: any = null;
+
+// 2. LOGIKA SAAT TOMBOL LOGIN DITEKAN
 if (formLogin) {
   formLogin.addEventListener('submit', async (e) => {
-    e.preventDefault(); // Mencegah reload halaman
-    const nimInput = (document.getElementById('nimLogin') as HTMLInputElement).value;
-    
+    e.preventDefault();
+    const nimYangDiketik = nimInput.value;
+
     try {
-      // Mencari data di Firebase di mana field 'nim' sama dengan yang diketik
-      const q = query(collection(db, "mahasiswa"), where("nim", "==", nimInput));
-      const querySnapshot = await getDocs(q);
+      // Cari di database: adakah mahasiswa dengan NIM tersebut?
+      const q = query(collection(db, "data_mahasiswa"), where("nim", "==", nimYangDiketik));
+      const hasilPencarian = await getDocs(q);
 
-      if (querySnapshot.empty) {
-        // Jika NIM tidak ditemukan di database
-        if (pesanErrorLogin) pesanErrorLogin.style.display = 'block';
-      } else {
-        // Jika NIM ditemukan, sembunyikan pesan error
-        if (pesanErrorLogin) pesanErrorLogin.style.display = 'none';
-        
-        // Ambil nama mahasiswa dari database
-        querySnapshot.forEach((doc) => {
-          mahasiswaAktif.nama = doc.data().nama;
-          mahasiswaAktif.nim = doc.data().nim;
+      if (!hasilPencarian.empty) {
+        // Jika NIM KETEMU!
+        hasilPencarian.forEach((doc) => {
+          dataMahasiswaSementara = doc.data(); // Simpan data namanya
         });
+        
+        // Pindah layar
+        if (layarLogin && layarAbsen && namaTampil) {
+          layarLogin.style.display = 'none'; // Sembunyikan login
+          layarAbsen.style.display = 'block'; // Tampilkan absen
+          namaTampil.innerText = `Selamat bertugas, ${dataMahasiswaSementara.nama}!`; // Panggil namanya
+        }
+        if (pesanError) pesanError.style.display = 'none';
 
-        // Pindah ke Halaman Absen
-        if (halamanLogin) halamanLogin.style.display = 'none';
-        if (halamanAbsen) halamanAbsen.style.display = 'block';
-        if (namaMahasiswaTampil) namaMahasiswaTampil.innerText = `Halo, ${mahasiswaAktif.nama}!`;
+      } else {
+        // Jika NIM TIDAK DITEMUKAN!
+        if (pesanError) pesanError.style.display = 'block';
       }
     } catch (error) {
-      console.error("Error pencarian data:", error);
-      alert("Gagal mengecek NIM. Pastikan koneksi internet lancar.");
-    }
-  });
-}
-
-// 3. SISTEM ABSENSI: Menyimpan data setelah login berhasil
-if (formAbsen) {
-  formAbsen.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const status = (document.getElementById('status') as HTMLSelectElement).value;
-
-    try {
-      // Simpan absen ke koleksi 'data_kehadiran'
-      await addDoc(collection(db, "data_kehadiran"), {
-        nama: mahasiswaAktif.nama,
-        nim: mahasiswaAktif.nim,
-        status: status,
-        waktu_absen: new Date().toLocaleString("id-ID")
-      });
-      
-      // Tampilkan pesan sukses
-      (formAbsen as HTMLFormElement).reset();
-      if (pesanSukses) pesanSukses.style.display = 'block';
-      
-      // Setelah 3 detik, kembalikan mahasiswa ke halaman Login awal
-      setTimeout(() => {
-        if (pesanSukses) pesanSukses.style.display = 'none';
-        if (halamanAbsen) halamanAbsen.style.display = 'none';
-        if (halamanLogin) halamanLogin.style.display = 'block';
-        (document.getElementById('nimLogin') as HTMLInputElement).value = ""; // Kosongkan input
-      }, 3000);
-
-    } catch (error) {
-      console.error("Gagal mengirim:", error);
-      alert("Terjadi kesalahan sistem.");
+      console.error("Gagal login:", error);
+      alert("Terjadi kesalahan koneksi internet.");
     }
   });
 }
