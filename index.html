@@ -1,32 +1,49 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
   <style>
-    body { font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; background: #f3f4f6; }
-    .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: 300px; }
-    input, button { width: 100%; margin: 8px 0; padding: 10px; box-sizing: border-box; }
+    body { font-family: sans-serif; background: #f3f4f6; display: flex; justify-content: center; padding: 20px; }
+    .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+    select, button, input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 6px; border: 1px solid #ccc; }
+    button { background: #2563eb; color: white; border: none; font-weight: bold; cursor: pointer; }
+    #video { width: 100%; height: 200px; background: #000; border-radius: 8px; }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <h3>Login Absensi</h3>
+<div class="card" id="app">
+  <!-- PINTU MASUK -->
+  <div id="loginPage">
+    <h2>Login Mahasiswa</h2>
     <input type="text" id="nim" placeholder="Masukkan NIM" />
-    <label style="font-size: 12px;">Foto Bukti:</label>
-    <input type="file" id="fotoBukti" accept="image/*" capture="environment" />
-    <button onclick="cekLogin()">Masuk</button>
+    <button onclick="checkNIM()">Login</button>
   </div>
 
-  <script>
-    function cekLogin() {
-      const nim = document.getElementById('nim').value;
-      if (nim === "123456") {
-        alert("Berhasil!");
-      } else {
-        alert("NIM tidak ditemukan.");
-      }
-    }
-  </script>
+  <!-- HALAMAN ABSEN -->
+  <div id="absenPage" style="display:none;">
+    <h3 id="welcomeText"></h3>
+    <select id="rs"><option>Pilih Rumah Sakit</option></select>
+    <select id="ruangan"><option>Pilih Ruangan</option></select>
+    <select id="shift"><option>Pilih Shift</option></select>
+    <video id="video" autoplay playsinline></video>
+    <button onclick="ambilAbsen()">Absen Masuk</button>
+  </div>
+</div>
+
+<script>
+  function checkNIM() {
+    // Logika cek NIM di Firestore nanti di sini
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('absenPage').style.display = 'block';
+    document.getElementById('welcomeText').innerText = "Halo, Mahasiswa!";
+    startCamera();
+  }
+
+  async function startCamera() {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    document.getElementById('video').srcObject = stream;
+  }
+</script>
+
 </body>
 </html>
