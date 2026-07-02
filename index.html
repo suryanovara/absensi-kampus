@@ -1,43 +1,19 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Absensi Online RS</title>
-  <style>
-    body { font-family: sans-serif; background-color: #f3f4f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-    .card { background-color: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 350px; text-align: center; }
-    h1 { color: #2563eb; margin-top: 0; font-size: 24px; }
-    input, button { width: 100%; margin-bottom: 15px; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
-    button { background-color: #2563eb; color: white; border: none; cursor: pointer; font-weight: bold; }
-    button:hover { background-color: #1d4ed8; }
-    .error { color: red; font-size: 14px; font-weight: bold; display: none; }
-    .success { color: green; font-size: 18px; font-weight: bold; }
-  </style>
-</head>
 <body>
-
-  <!-- LAYAR 1: LOGIN -->
-  <div id="layar-login" class="card">
-    <h1>Login Mahasiswa</h1>
-    <p style="color: #4b5563; font-size: 14px;">Masukkan NIM Anda untuk absen shift</p>
-    <form id="formLogin">
-      <input type="text" id="nimInput" placeholder="Contoh: 123456" required />
-      <button type="submit">Masuk</button>
-    </form>
-    <p id="pesanError" class="error">❌ NIM tidak terdaftar di sistem!</p>
+  <div id="layar-login">
+    <input type="text" id="nim" placeholder="Masukkan NIM" />
+    <button onclick="cekLogin()">Masuk</button>
   </div>
-
-  <!-- LAYAR 2: ABSEN (Disembunyikan sementara) -->
-  <div id="layar-absen" class="card" style="display: none;">
-    <h1>Absen Shift</h1>
-    <p id="namaTampil" class="success"></p>
-    <p style="color: #4b5563; font-size: 14px;">(Fitur kamera & GPS akan ditambahkan di sini)</p>
-    <form id="formAbsen">
-      <button type="submit" style="background-color: #059669;">Hadir Sekarang</button>
-    </form>
-  </div>
-
-  <script type="module" src="./src/main.ts"></script>
+  <script>
+    function cekLogin() {
+      const nim = document.getElementById('nim').value;
+      if (nim === "123456") { // Ganti dengan NIM dari database Anda
+        alert("Berhasil!");
+      } else {
+        alert("NIM tidak ditemukan.");
+      }
+    }
+  </script>
 </body>
 </html>
