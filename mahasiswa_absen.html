@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Absen Mahasiswa</title>
+  <style>
+    body { font-family: sans-serif; display: flex; justify-content: center; padding: 20px; background: #f3f4f6; }
+    .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+    select, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 6px; }
+    #video { width: 100%; height: 200px; background: #000; border-radius: 8px; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h3>Form Absensi</h3>
+  
+  <select id="rs"><option>Pilih Rumah Sakit</option></select>
+  <select id="ruangan"><option>Pilih Ruangan</option></select>
+  <select id="shift"><option>Pilih Shift</option></select>
+  
+  <video id="video" autoplay playsinline></video>
+  
+  <button onclick="prosesAbsen('Masuk')" style="background: #22c55e; color: white; border: none;">Absen Masuk</button>
+  <button onclick="prosesAbsen('Pulang')" style="background: #ef4444; color: white; border: none;">Absen Pulang</button>
+</div>
+
+<script>
+  // Aktifkan kamera saat halaman dimuat
+  async function startCamera() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      document.getElementById('video').srcObject = stream;
+    } catch (err) {
+      alert("Kamera tidak bisa diakses: " + err);
+    }
+  }
+  startCamera();
+
+  function prosesAbsen(tipe) {
+    alert("Absen " + tipe + " berhasil disimpan!");
+  }
+</script>
+
+</body>
+</html>
