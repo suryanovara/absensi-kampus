@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <title>Login Absensi</title>
   <style>
     body { font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; background: #f3f4f6; }
     .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: 300px; }
@@ -9,11 +10,23 @@
   </style>
 </head>
 <body>
-  <div class="card" id="loginPage">
+  <div class="card">
     <h3>Login Sistem</h3>
     <input type="text" id="nim" placeholder="Masukkan NIM / ID Admin" />
-    <button onclick="prosesLogin()">Masuk</button>
+    <button id="btnMasuk">Masuk</button>
   </div>
-  <script type="module" src="/src/main.ts"></script>
+
+  <script>
+    document.getElementById('btnMasuk').onclick = function() {
+      const inputID = document.getElementById('nim').value;
+      if (inputID.startsWith("ADM-")) {
+        window.location.href = "admin_dashboard.html";
+      } else if (inputID.length > 0) {
+        window.location.href = "mahasiswa_absen.html";
+      } else {
+        alert("Harap masukkan NIM atau ID Admin!");
+      }
+    };
+  </script>
 </body>
 </html>
