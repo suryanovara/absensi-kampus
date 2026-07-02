@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <meta charset="UTF-8">
   <style>
     body { font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; background: #f3f4f6; }
     .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: 300px; }
-    input, button { width: 100%; margin: 5px 0; padding: 8px; }
+    input, button { width: 100%; margin: 8px 0; padding: 10px; box-sizing: border-box; }
   </style>
 </head>
 <body>
+
   <div class="card">
     <h3>Login Absensi</h3>
     <input type="text" id="nim" placeholder="Masukkan NIM" />
+    <label style="font-size: 12px;">Foto Bukti:</label>
     <input type="file" id="fotoBukti" accept="image/*" capture="environment" />
     <button onclick="cekLogin()">Masuk</button>
   </div>
