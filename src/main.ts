@@ -14,4 +14,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-console.log("Firebase berhasil terhubung!");
+console.log("Firebase berhasil terhubung!", db);
