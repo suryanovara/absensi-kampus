@@ -6,15 +6,29 @@
   <title>Absensi Online</title>
   <style>
     body { font-family: sans-serif; background-color: #f3f4f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-    .card { background-color: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
-    h1 { color: #2563eb; margin-top: 0; margin-bottom: 10px; font-size: 24px; }
-    p { color: #4b5563; font-size: 16px; margin: 0; }
+    .card { background-color: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 350px;}
+    h1 { color: #2563eb; margin-top: 0; font-size: 24px; text-align: center; }
+    input, select, button { width: 100%; margin-bottom: 15px; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
+    button { background-color: #2563eb; color: white; border: none; cursor: pointer; font-weight: bold; }
+    button:hover { background-color: #1d4ed8; }
+    #pesanSukses { color: green; text-align: center; font-weight: bold; display: none; }
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>Absensi Online PBK</h1>
-    <p>Sistem siap digunakan!</p>
+    <h1>Absensi PBK</h1>
+    <form id="formAbsen">
+      <input type="text" id="nama" placeholder="Nama Lengkap" required />
+      <input type="text" id="nim" placeholder="NIM" required />
+      <select id="status" required>
+        <option value="">Pilih Kehadiran...</option>
+        <option value="Hadir">Hadir</option>
+        <option value="Sakit">Sakit</option>
+        <option value="Izin">Izin</option>
+      </select>
+      <button type="submit">Kirim Absen</button>
+    </form>
+    <p id="pesanSukses">✅ Absen berhasil dikirim!</p>
   </div>
   <script type="module" src="/src/main.ts"></script>
 </body>
